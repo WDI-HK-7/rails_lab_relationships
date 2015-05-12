@@ -1,0 +1,20 @@
+#!/bin/sh
+bundle install
+rake db:drop db:create
+rails g model Artist      name:string
+rails g model UserAccount email:string artist:belongs_to
+rails g model Album       title:string artist:belongs_to
+rails g model Songs       name:string  album:belongs_to
+rake db:migrate
+
+# Add to Models
+# - Artist.rb
+#   --> has_one  :user_account
+#   --> has_many :albums
+#   --> has_many :songs, through: :albums
+# - Album.rb
+#   --> has_many :songs
+# - Song.rb
+#   --> belongs_to :artist, through: :albums
+
+# rake db:seed
